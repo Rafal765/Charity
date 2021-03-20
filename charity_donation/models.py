@@ -25,7 +25,7 @@ class Donation(models.Model):
     quantity = models.PositiveIntegerField()
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    address = models.CharField(max_length=64) #czy osobny model i zaciągać
+    address = models.CharField(max_length=64)
     phone_number = PhoneNumberField()
     city = models.CharField(max_length=64)
     zip_code = models.IntegerField()
