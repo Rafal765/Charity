@@ -7,9 +7,15 @@ class LandingPage(View):
     def get(self, request):
         bag_number = Donation.objects.all().count()
         institution_number = Institution.objects.all().count()
+        institution_foundation = Institution.objects.filter(type='f').order_by('name')
+        institution_organization = Institution.objects.filter(type='o').order_by('name')
+        institution_local = Institution.objects.filter(type='z').order_by('name')
         ctx = {
             "bag_number": bag_number,
-            "institution_number": institution_number
+            "institution_number": institution_number,
+            "institution_foundation": institution_foundation,
+            "institution_organization": institution_organization,
+            "institution_local": institution_local,
         }
         return render(request, 'charity_donation/index.html', ctx)
 
