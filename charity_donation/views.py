@@ -1,8 +1,8 @@
 from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from charity_donation.models import Donation, Institution, Category
-from charity_donation.forms import SignUpForm
+from charity_donation.forms import SignUpForm, LoginForm
 
 
 class LandingPage(View):
@@ -27,9 +27,27 @@ class AddDonation(View):
         return render(request, 'charity_donation/form.html')
 
 
-class Login(View):
+class LoginView(View):
     def get(self, request):
-        return render(request, 'charity_donation/login.html')
+        form = LoginForm()
+        return render(request, 'charity_donation/login.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("landing_page")
+        return redirect("login")
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("landing_page")
 
 
 class Register(View):
