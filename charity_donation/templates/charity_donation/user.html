@@ -1,0 +1,15 @@
+{% extends 'charity_donation/base.html' %}
+{% load static %}
+
+    {% block content %}
+
+    <header class="header--main-page">
+
+      <div class="form--steps-container">
+            <h2>Imię: {{ request.user.first_name }}</h2>
+            <h2>Nazwisko: {{ request.user.last_name }}</h2>
+            <h2>email: {{ request.user.username }}</h2>
+      </div>
+    </header>
+
+  {% endblock %}

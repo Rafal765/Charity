@@ -1,6 +1,7 @@
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 from charity_donation.models import Donation, Institution, Category
 from charity_donation.forms import SignUpForm, LoginForm
 
@@ -22,9 +23,17 @@ class LandingPage(View):
         return render(request, 'charity_donation/index.html', ctx)
 
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request):
-        return render(request, 'charity_donation/form.html')
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {
+            "categories": categories,
+            "institutions": institutions,
+        }
+        return render(request, 'charity_donation/form.html', ctx)
 
 
 class LoginView(View):
@@ -61,4 +70,12 @@ class Register(View):
             form.save()
             return redirect('../login#login')
         return render(request, 'charity_donation/register.html', {'form': form})
+
+
+class UserView(View):
+    def get(self, request):
+        ctx = {
+
+        }
+        return render(request, 'charity_donation/user.html', ctx)
 
