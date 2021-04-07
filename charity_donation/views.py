@@ -74,8 +74,21 @@ class Register(View):
 
 class UserView(View):
     def get(self, request):
+        donations = Donation.objects.filter(user=request.user)
         ctx = {
-
+            "donations": donations,
         }
         return render(request, 'charity_donation/user.html', ctx)
 
+
+#class DonationFormView(View):
+#    def get(self, request):
+#        form = SignUpForm()
+#        return render(request, 'charity_donation/register.html', {'form': form})
+#
+#    def post(self, request):
+#        form = SignUpForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return redirect('../login#login')
+#        return render(request, 'charity_donation/register.html', {'form': form})
