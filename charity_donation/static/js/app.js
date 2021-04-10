@@ -221,7 +221,34 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
-      // TODO: Validation
+      // TODO: Validation if=coś
+
+      // const categories = document.querySelectorAll("input[name='categories']");
+
+      if (this.currentStep === 2) {
+
+        let institution_types = [];
+        const categories = document.querySelectorAll("input[name='categories']");
+        const institutions = document.querySelectorAll("input[name='organization']");
+        categories.forEach(el => {
+            if (el.checked) {
+
+            } else {
+              let type = parseInt(el.value);
+              institution_types.push(type)
+              // institution.categories.id toggle
+            }
+        });
+        institutions.forEach(el => {
+            let x = +(el.dataset.categories.split(","))
+            if (institution_types.includes(x)) { //todo
+              el.parentElement.parentElement.style.display = "none";
+              //el.classList.toggle("hidden")
+            } else {
+              el.parentElement.parentElement.style.display = "block";
+            }
+        });
+        }
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
