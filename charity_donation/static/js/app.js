@@ -262,6 +262,48 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
+      if (this.currentStep === 5) {
+        const bags = document.querySelector("input[name='bags']").value;
+        const organization = document.querySelector("input[name='organization']").value;
+        const address = document.querySelector("input[name='address']").value;
+        const city = document.querySelector("input[name='city']").value;
+        const postcode = document.querySelector("input[name='postcode']").value;
+        const phone = document.querySelector("input[name='phone']").value;
+        const data = document.querySelector("input[name='data']").value;
+        const time = document.querySelector("input[name='time']").value;
+        let more_info = document.querySelector("textarea[name='more_info']").value;
+        if (more_info === "") {
+          more_info = "Brak uwag"
+        }
+
+        const summary_bags = document.getElementById("sum_bags");
+        summary_bags.innerText = bags + " worki ubrań w dobrym stanie"
+
+        const summary_organization = document.getElementById("sum_organization");
+        summary_organization.innerText = "Dla fundacji " + organization
+
+        const summary_address = document.getElementById("sum_address");
+        summary_address.innerText = address
+
+        const summary_city = document.getElementById("sum_city");
+        summary_city.innerText = city
+
+        const summary_postcode = document.getElementById("sum_postcode");
+        summary_postcode.innerText = postcode
+
+        const summary_phone = document.getElementById("sum_phone");
+        summary_phone.innerText = phone
+
+        const summary_data = document.getElementById("sum_data");
+        summary_data.innerText = data
+
+        const summary_time = document.getElementById("sum_time");
+        summary_time.innerText = time
+
+        const summary_more_info = document.getElementById("sum_more_info");
+        summary_more_info.innerText = more_info
+      }
     }
 
     /**
