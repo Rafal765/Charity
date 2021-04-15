@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from charity_donation.models import Donation, Institution, Category
 from charity_donation.forms import SignUpForm, LoginForm
+from django.core.paginator import Paginator
 
 
 class LandingPage(View):
@@ -13,12 +14,24 @@ class LandingPage(View):
         institution_foundation = Institution.objects.filter(type='f').order_by('name')
         institution_organization = Institution.objects.filter(type='o').order_by('name')
         institution_local = Institution.objects.filter(type='z').order_by('name')
+        paginator_foundation = Paginator(institution_foundation, 5)
+        page_f = request.GET.get('page')
+        foundations = paginator_foundation.get_page(page_f)
+        paginator_organization = Paginator(institution_organization, 5)
+        page_o = request.GET.get('page')
+        organizations = paginator_organization.get_page(page_o)
+        paginator_local = Paginator(institution_local, 5)
+        page_l = request.GET.get('page')
+        local = paginator_local.get_page(page_l)
         ctx = {
             "bag_number": bag_number,
             "institution_number": institution_number,
             "institution_foundation": institution_foundation,
             "institution_organization": institution_organization,
             "institution_local": institution_local,
+            "foundations": foundations,
+            "organizations": organizations,
+            'local': local,
         }
         return render(request, 'charity_donation/index.html', ctx)
 
