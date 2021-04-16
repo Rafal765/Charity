@@ -6,12 +6,12 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
-* [Sources](#sources)
+* [To do](#to-do)
 
 ## General info
 
 A website aimed at helping and managing donations of unneeded items to charity organizations. The project covered 
-building the whole backend for frontend provided by UX designer, in accordance to decided User Stories.
+building the whole backend for frontend provided by UX designer, in accordance with decided User Story.
 
 ![Screenshot](index.png)
 
@@ -38,8 +38,9 @@ Project is created with:
 * Keep database of charity organizations
 * Check statistics of delivered donations and supported organizations
 
-### To do:
+### To do
 
-* Complete remaining "should have" and "could have" User Stories
+* Completing remaining "should have" and "could have" elements
+* Adjustment of frontend format and esthetics
 
 
