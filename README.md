@@ -6,7 +6,6 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
-* [To do](#to-do)
 
 ## General info
 
@@ -38,7 +37,7 @@ Project is created with:
 * Keep database of charity organizations
 * Check statistics of delivered donations and supported organizations
 
-### To do
+### To do:
 
 * Completing remaining "should have" and "could have" elements
 * Adjustment of frontend format and esthetics
