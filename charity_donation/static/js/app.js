@@ -218,12 +218,13 @@ document.addEventListener("DOMContentLoaded", function() {
      * Update form front-end
      * Show next or previous section etc.
      */
+
     updateForm() {
       this.$step.innerText = this.currentStep;
 
       // TODO: Validation if=coś
 
-      // const categories = document.querySelectorAll("input[name='categories']");
+      const form_errors = [];
 
       if (this.currentStep === 2) {
 
@@ -236,14 +237,12 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
               let type = parseInt(el.value);
               institution_types.push(type)
-              // institution.categories.id toggle
             }
         });
         institutions.forEach(el => {
             let x = +(el.dataset.categories.split(","))
             if (institution_types.includes(x)) { //todo
               el.parentElement.parentElement.style.display = "none";
-              //el.classList.toggle("hidden")
             } else {
               el.parentElement.parentElement.style.display = "block";
             }
@@ -263,13 +262,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: get data from inputs and show them in summary
 
+
       if (this.currentStep === 5) {
+
         const bags = document.querySelector("input[name='bags']").value;
         const organization = document.querySelector("input[name='organization']").value;
         const address = document.querySelector("input[name='address']").value;
         const city = document.querySelector("input[name='city']").value;
         const postcode = document.querySelector("input[name='postcode']").value;
+        if (postcode.length !== 5) {
+          form_errors.push("Błędny kod pocztowy")
+        }
         const phone = document.querySelector("input[name='phone']").value;
+        if (phone.length !== 9) {
+          form_errors.push("Błędny numer")
+        }
         const data = document.querySelector("input[name='data']").value;
         const time = document.querySelector("input[name='time']").value;
         let more_info = document.querySelector("textarea[name='more_info']").value;
@@ -303,6 +310,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const summary_more_info = document.getElementById("sum_more_info");
         summary_more_info.innerText = more_info
+
+        const my_errors = document.getElementById("errors");
+        const submit_button = document.getElementById("submit");
+
+        if (form_errors.length) {
+          my_errors.innerText = "Niepoprawne wartości, proszę kliknąć 'wstecz' i dokonać poprawek";
+          submit_button.style.display = "none"
+        }
+        else {
+          submit_button.style.display = "block"
+        }
       }
     }
 
@@ -311,11 +329,18 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
+
     submit(e) {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
     }
+
+  //  submit(e) {
+  //    e.preventDefault();
+  //    this.currentStep++;
+  //    this.updateForm();
+  //  }
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {
