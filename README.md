@@ -39,7 +39,8 @@ Project is created with:
 
 ### To do:
 
+* Finishing donation form
 * Completing remaining "should have" and "could have" elements
-* Adjustment of frontend format and esthetics
+* Adjustment of frontend format and aesthetics
 
 
