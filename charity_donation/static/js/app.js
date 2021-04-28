@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (this.currentStep === 5) {
 
         const bags = document.querySelector("input[name='bags']").value;
-        const organization = document.querySelector("input[name='organization']").value;
+        const organization = document.querySelector("input[name='organization']").dataset.name;
         const address = document.querySelector("input[name='address']").value;
         const city = document.querySelector("input[name='city']").value;
         const postcode = document.querySelector("input[name='postcode']").value;
@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function() {
         summary_bags.innerText = bags + " worki ubrań w dobrym stanie"
 
         const summary_organization = document.getElementById("sum_organization");
-        summary_organization.innerText = "Dla fundacji " + organization
+        summary_organization.innerText = "Dla " + organization
 
         const summary_address = document.getElementById("sum_address");
         summary_address.innerText = address
@@ -320,6 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         else {
           submit_button.style.display = "block"
+          my_errors.innerText = ""
         }
       }
     }
@@ -335,12 +336,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.currentStep++;
       this.updateForm();
     }
-
-  //  submit(e) {
-  //    e.preventDefault();
-  //    this.currentStep++;
-  //    this.updateForm();
-  //  }
   }
   const form = document.querySelector(".form--steps");
   if (form !== null) {
