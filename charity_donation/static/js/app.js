@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$buttonsContainer = $el.querySelector(".help--buttons");
       this.$slidesContainers = $el.querySelectorAll(".help--slides");
       this.currentSlide = this.$buttonsContainer.querySelector(".active").parentElement.dataset.id;
+      this.pagesPaginator = $el.querySelectorAll(".help--slides-pagination");
       this.init();
     }
 
@@ -61,9 +62,30 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     changePage(e) {
       e.preventDefault();
-      const page = e.target.dataset.page;
+      //const page = e.target.dataset.page;
+      //const $btn = e.target;
+//
+      //// Buttons Active class change
+      //[...this.pagesPaginator].forEach(btn => btn.firstElementChild.classList.remove("active"));
+      ////$btn.classList.add("active");
+//
+      //// Current page
+      //this.currentPage = $btn.parentElement.dataset.page;
+//
+      //// Slides active class change
+      //this.currentPagesPaginator.forEach(el => {
+      //  el.classList.remove("active");
+//
+      //  if (el.dataset.page === this.currentPage) {
+      //    el.classList.add("active");
+      //  }
+      //});
 
+      //console.log(page);
+
+      const page = e.target.dataset.page;
       console.log(page);
+      window.location.href = "/?page=" + page + "#tutaj";
     }
   }
   const helpSection = document.querySelector(".help");
