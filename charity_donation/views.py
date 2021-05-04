@@ -2,6 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from charity_donation.models import Donation, Institution, Category
 from charity_donation.forms import SignUpForm, LoginForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -21,12 +22,7 @@ class LandingPage(View):
         print(paginator_foundation.page_range)
         page_f = request.GET.get('page')
         print(page_f)
-        #try:
         foundations = paginator_foundation.get_page(page_f)
-        #except PageNotAnInteger:
-            #foundations = paginator_foundation.get_page(1)
-        #except EmptyPage:
-            #foundations = paginator_foundation.get_page(paginator_foundation.num_pages)
         paginator_organization = Paginator(institution_organization, 5)
         page_o = request.GET.get('page')
         organizations = paginator_organization.get_page(page_o)
@@ -57,6 +53,35 @@ class AddDonation(LoginRequiredMixin, View):
             "institutions": institutions,
         }
         return render(request, 'charity_donation/form.html', ctx)
+
+    def post(self, request):
+        quantity = request.POST["bags"]
+        institution = Institution.objects.get(pk=request.POST["organization"])
+        categories = institution.categories
+        address = request.POST["address"]
+        city = request.POST["city"]
+        postcode = request.POST["postcode"]
+        phone = request.POST["phone"]
+        data = request.POST["data"]
+        time = request.POST["time"]
+        more_info = request.POST["more_info"]
+        user = request.user
+
+        donation = Donation.objects.create(
+            quantity=quantity,
+            institution=institution,
+            categories=categories,
+            address=address,
+            phone_number=phone,
+            city=city,
+            zip_code=postcode,
+            pick_up_date=data,
+            pick_up_time=time,
+            pick_up_comment=more_info,
+            user=user,
+        )
+        donation.save()
+        return render(request, "charity_donation/form-confirmation.html")
 
 
 class LoginView(View):
@@ -102,16 +127,3 @@ class UserView(View):
             "donations": donations,
         }
         return render(request, 'charity_donation/user.html', ctx)
-
-
-#class DonationFormView(View):
-#    def get(self, request):
-#        form = SignUpForm()
-#        return render(request, 'charity_donation/register.html', {'form': form})
-#
-#    def post(self, request):
-#        form = SignUpForm(request.POST)
-#        if form.is_valid():
-#            form.save()
-#            return redirect('../login#login')
-#        return render(request, 'charity_donation/register.html', {'form': form})
