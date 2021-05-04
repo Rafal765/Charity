@@ -57,7 +57,7 @@ class AddDonation(LoginRequiredMixin, View):
     def post(self, request):
         quantity = request.POST["bags"]
         institution = Institution.objects.get(pk=request.POST["organization"])
-        categories = institution.categories
+        categories = request.POST.getlist("category")
         address = request.POST["address"]
         city = request.POST["city"]
         postcode = request.POST["postcode"]
@@ -70,7 +70,6 @@ class AddDonation(LoginRequiredMixin, View):
         donation = Donation.objects.create(
             quantity=quantity,
             institution=institution,
-            categories=categories,
             address=address,
             phone_number=phone,
             city=city,
@@ -80,6 +79,9 @@ class AddDonation(LoginRequiredMixin, View):
             pick_up_comment=more_info,
             user=user,
         )
+        for category in categories:
+            c = Category.objects.get(name=category)
+            donation.categories.add(c)
         donation.save()
         return render(request, "charity_donation/form-confirmation.html")
 
