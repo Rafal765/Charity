@@ -11,10 +11,19 @@ TYPES = (
 
 
 class Category(models.Model):
+    """
+    name: name of the category
+    """
     name = models.CharField(max_length=64)
 
 
 class Institution(models.Model):
+    """
+    name: name of an institution
+    description: description of the institution
+    type: type of institution (availible: 'fundacja', 'organizacja rządowa', 'zbiórka lokalna')
+    categories: applicable categories from Category model
+    """
     name = models.CharField(max_length=64)
     description = models.TextField()
     type = models.CharField(max_length=1, choices=TYPES, default='f')
@@ -25,6 +34,16 @@ class Institution(models.Model):
 
 
 class Donation(models.Model):
+    """
+    quantity: amount of bags
+    categories: applicable categories from Category model
+    institution: related institution from Institution model
+    address, city, zip_code: where bags await
+    phone_number: your contact number
+    pick_up_time, pick_up_date: when bags are supposed to be taken
+    pick_up_comment: additional comment
+    user: website user who donates
+    """
     quantity = models.PositiveIntegerField()
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
