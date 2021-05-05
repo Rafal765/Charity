@@ -13,12 +13,27 @@
       </div>
 
       <div class="form--group">
-        {% for donation in donations.all %}
+        {% for donation in donations %}
             <ul>
-                <li>Worki {{ donation.quantity }}</li>
-                <li>Organizacja {{ donation.institution }}</li>
-                <li>Kategorie: {% for category in donation.categories.all %} {{ category.name }}{% endfor %}</li>
-                <li>Odbiór {{ donation.pick_up_date | date:"SHORT_DATE_FORMAT" }}, {{ donation.pick_up_time | time:"H:i" }}</li>
+                <li>Worki: {{ donation.quantity }}</li>
+                <li>Organizacja: {{ donation.institution }}</li>
+                <li>Kategorie: {% for category in donation.categories.all %} {{ category.name }},{% endfor %}</li>
+                <li>Odbiór {{ donation.pick_up_date | date:"d/m/Y" }}, {{ donation.pick_up_time | time:"H:i" }}</li>
+                <li>
+                    <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="donation_id" value="{{ donation.pk }}">
+                        {% if donation.is_taken == True %}
+                            <button type="submit" class="btn"  style="color: dimgray" name="donation_taken">
+                                <p>Przywróć</p>
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn" name="donation_not_taken">
+                                <p>Archiwizuj</p>
+                            </button>
+                        {% endif %}
+                    </form>
+                </li>
             </ul>
         {% endfor %}
       </div>

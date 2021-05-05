@@ -43,6 +43,7 @@ class Donation(models.Model):
     pick_up_time, pick_up_date: when bags are supposed to be taken
     pick_up_comment: additional comment
     user: website user who donates
+    is_taken: user confirms whether donation was taken
     """
     quantity = models.PositiveIntegerField()
     categories = models.ManyToManyField(Category)
@@ -55,3 +56,5 @@ class Donation(models.Model):
     pick_up_time = models.TimeField(auto_now=False, auto_now_add=False)
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, null=True, default=None, on_delete=models.CASCADE)
+    is_taken = models.BooleanField(default=False)
+

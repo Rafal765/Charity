@@ -124,8 +124,18 @@ class Register(View):
 
 class UserView(View):
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user)
+        donations = Donation.objects.filter(user=request.user).order_by("is_taken")\
+            .order_by("-pick_up_date").order_by("-pick_up_time")
         ctx = {
             "donations": donations,
         }
         return render(request, 'charity_donation/user.html', ctx)
+
+    def post(self, request):
+        donation = Donation.objects.get(id=request.POST["donation_id"])
+        if "donation_not_taken" in request.POST:
+            donation.is_taken = False
+        elif "donation_taken" in request.POST:
+            donation.is_taken = True
+        donation.save()
+        return redirect("user")
