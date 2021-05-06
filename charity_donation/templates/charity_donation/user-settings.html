@@ -1,0 +1,30 @@
+{% extends 'charity_donation/base.html' %}
+{% load static %}
+
+
+    {% block content %}
+
+    <section class="login-page">
+       <h2>Aktualizacja danych</h2>
+       <form method="post">
+       {% csrf_token %}
+         <div class="form-group">
+           <input type="text" name="first_name" placeholder="Imię" value="{{ request.user.first_name }}">
+         </div>
+         <div class="form-group">
+          <input type="text" name="last_name" placeholder="Nazwisko" value="{{ request.user.last_name }}">
+          </div>
+         <div class="form-group">
+           <input type="text" name="email" placeholder="Email" value="{{ request.user.username }}">
+         </div>
+         <div class="form-group">
+           <input type="password" name="password" placeholder="Podaj hasło">
+         </div>
+         <div class="form-group">
+           <button type="submit" class="btn" name="settings_save">Zapisz</button>
+         </div>
+       </form>
+    </section>
+    </header>
+
+  {% endblock %}

@@ -122,7 +122,7 @@ class Register(View):
         return render(request, 'charity_donation/register.html', {'form': form})
 
 
-class UserView(View):
+class UserView(LoginRequiredMixin, View):
     def get(self, request):
         donations = Donation.objects.filter(user=request.user).order_by("is_taken")\
             .order_by("-pick_up_date").order_by("-pick_up_time")
@@ -139,3 +139,8 @@ class UserView(View):
             donation.is_taken = True
         donation.save()
         return redirect("user")
+
+
+class UserSettings(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'charity_donation/user-settings.html')
