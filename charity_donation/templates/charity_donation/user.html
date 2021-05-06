@@ -4,21 +4,28 @@
 
     {% block content %}
 
-    <header class="header--main-page">
-
-      <div class="form--steps-container">
+      <h2>Twoje dane:</h2>
+      <section class="steps--container">
+        <div class="steps--item">
             <h2>Imię: {{ request.user.first_name }}</h2>
             <h2>Nazwisko: {{ request.user.last_name }}</h2>
             <h2>email: {{ request.user.username }}</h2>
-      </div>
+        </div>
+      </section>
 
-      <div class="form--group">
+
+      <h2>Twoje dary:</h2>
+      <section class="steps">
+
         {% for donation in donations %}
-            <ul>
-                <li>Worki: {{ donation.quantity }}</li>
-                <li>Organizacja: {{ donation.institution }}</li>
-                <li>Kategorie: {% for category in donation.categories.all %} {{ category.name }},{% endfor %}</li>
-                <li>Odbiór {{ donation.pick_up_date | date:"d/m/Y" }}, {{ donation.pick_up_time | time:"H:i" }}</li>
+            <div class="steps--container">
+            <ul class="help--slides-items">
+                <h2>
+                    <li>Worki: {{ donation.quantity }} </li>
+                    <li>Organizacja: {{ donation.institution }}</li>
+                    <li>Kategorie: {% for category in donation.categories.all %} {{ category.name }},{% endfor %}</li>
+                    <li>Odbiór {{ donation.pick_up_date | date:"d/m/Y" }}, {{ donation.pick_up_time | time:"H:i" }}</li>
+                </h2>
                 <li>
                     <form method="post">
                     {% csrf_token %}
@@ -35,8 +42,9 @@
                     </form>
                 </li>
             </ul>
+            </div>
         {% endfor %}
-      </div>
+      </section>
 
     </header>
 
