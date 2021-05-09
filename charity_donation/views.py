@@ -123,8 +123,10 @@ class Register(View):
 
 
 class UserView(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user).order_by("is_taken")\
+        donations = Donation.objects.filter(user=request.user).order_by("is_taken") \
             .order_by("-pick_up_date").order_by("-pick_up_time")
         ctx = {
             "donations": donations,
@@ -142,5 +144,7 @@ class UserView(LoginRequiredMixin, View):
 
 
 class UserSettings(LoginRequiredMixin, View):
+    login_url = "login"
+
     def get(self, request):
         return render(request, 'charity_donation/user-settings.html')
