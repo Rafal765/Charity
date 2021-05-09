@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from charity_donation.models import Donation, Institution, Category
 from charity_donation.forms import SignUpForm, LoginForm
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -148,3 +149,44 @@ class UserSettings(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, 'charity_donation/user-settings.html')
+
+    def post(self, request):
+        password = request.POST["password"]
+        user = authenticate(request, username=request.user.username, password=password)
+        if user is not None:
+            if "settings_save" in request.POST:
+                first_name = request.POST["first_name"]
+                last_name = request.POST["last_name"]
+                username = request.POST["username"]
+
+                if request.user.username == username:
+                    user = User.objects.get(username=username)
+                    user.first_name = first_name
+                    user.last_name = last_name
+                    user.username = username
+                    user.save()
+                    return redirect("user")
+
+                else:
+                    try:
+                        User.objects.get(username=username)
+                    except ObjectDoesNotExist:
+                        user = User.objects.get(username=request.user.username)
+                        user.first_name = first_name
+                        user.last_name = last_name
+                        user.username = username
+                        user.save()
+                        return redirect("user")
+                    return redirect("user_settings")
+
+            elif "password_save" in request.POST:
+                new_password1 = request.POST["new_password1"]
+                new_password2 = request.POST["new_password2"]
+                if new_password1 == new_password2:
+                    user.set_password(new_password2)
+                    user.save()
+                    login(request, user=user)
+                    return redirect("user")
+
+        else:
+            return redirect("user_settings")
