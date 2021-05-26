@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$buttonsContainer = $el.querySelector(".help--buttons");
       this.$slidesContainers = $el.querySelectorAll(".help--slides");
       this.currentSlide = this.$buttonsContainer.querySelector(".active").parentElement.dataset.id;
-      //this.pagination = this.$slidesContainers.querySelector(".help--slides-pagination").children;
       this.init();
     }
 
@@ -29,11 +28,11 @@ document.addEventListener("DOMContentLoaded", function() {
       /**
        * Pagination buttons
        */
-      this.$el.addEventListener("click", e => {
-        if (e.target.classList.contains("btn") && e.target.parentElement.parentElement.classList.contains("help--slides-pagination")) {
-          this.changePage(e);
-        }
-      });
+      //this.$el.addEventListener("click", e => {
+      //  if (e.target.classList.contains("btn") && e.target.parentElement.parentElement.classList.contains("help--slides-pagination")) {
+      //    this.changePage(e);
+      //  }
+      //});
     }
 
     changeSlide(e) {
