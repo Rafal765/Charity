@@ -1,5 +1,6 @@
 from django.views import View
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -11,21 +12,17 @@ from django.core.paginator import Paginator
 
 class LandingPage(View):
     def get(self, request):
-        bag_number = Donation.objects.all().count() # czy dobrze liczy
+        bag_number = Donation.objects.all().aggregate(Sum('quantity'))['quantity__sum']
         institution_number = Donation.objects.values('institution__name').distinct().count()
-
         paginator_foundation = Paginator(Institution.objects.filter(type='f').order_by('name'), 5)
         page_foundation = request.GET.get('page_foundation')
         foundations = paginator_foundation.get_page(page_foundation)
-
         paginator_organization = Paginator(Institution.objects.filter(type='o').order_by('name'), 5)
         page_organization = request.GET.get('page_organization')
         organizations = paginator_organization.get_page(page_organization)
-
         paginator_local = Paginator(Institution.objects.filter(type='z').order_by('name'), 5)
         page_local = request.GET.get('page_local')
         local = paginator_local.get_page(page_local)
-
         ctx = {
             "bag_number": bag_number,
             "institution_number": institution_number,
