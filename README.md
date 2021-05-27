@@ -37,10 +37,5 @@ Project is created with:
 * Keep database of charity organizations
 * Check statistics of delivered donations and supported organizations
 
-### To do:
-
-* Finishing pagination for organizations
-* Completing remaining "should have" and "could have" elements
-* Adjustment of frontend format and aesthetics
 
 
